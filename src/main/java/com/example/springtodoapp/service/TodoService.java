@@ -11,23 +11,26 @@ import java.util.Optional;
 @Service
 public class TodoService {
 
-    private TodoInterface todoInterface;
-
     @Autowired
-    public TodoService(TodoInterface todoInterface) {
-        this.todoInterface = todoInterface;
-    }
+    private TodoInterface todoInterface;
 
     public Iterable<Todo> getAllTodo() {
         return todoInterface.findAll();
     }
 
-    public Optional<Todo> getTodoById(Integer id) {
-        return todoInterface.findById(id);
+    public Todo getTodoById(Integer id) {
+        return todoInterface.findById(id).get();
     }
 
     public Todo createTodo(Todo todo){
         return todoInterface.save(todo);
+    }
+
+    public Todo updateTodo(Integer id,Todo todo){
+        Todo updateTodo = todoInterface.findById(id).get();
+        updateTodo.setName(todo.getName());
+        updateTodo.setContent(todo.getContent());
+        return updateTodo;
     }
 
     public void deleteTodoById(Integer id){

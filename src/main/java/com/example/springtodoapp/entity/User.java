@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user-profile")
+@Table(name = "USER_PROFILE")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,8 +17,11 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password; //Hash password before pushing to database
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "User_Todo", joinColumns =@JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name = "Todo_id"))
     private Set<Todo> todos = new HashSet<>();
+
+    public User(){}
 
     public User(String email, String password) {
         this.email = email;

@@ -19,6 +19,13 @@ public class Todo {
     @ManyToOne
     private User user;
 
+    public Todo(){};
+
+    public Todo(String name, String content) {
+        this.name = name;
+        this.content = content;
+    }
+
     public Todo(String name, String content, User user) {
         this.name = name;
         this.content = content;

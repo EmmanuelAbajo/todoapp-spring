@@ -40,4 +40,12 @@ public class TodoService {
     public void deleteAllTodo(){
         todoInterface.deleteAll();
     }
+
+    public Boolean isEmpty(){
+        if (todoInterface.count() == 0) {
+            return true;
+        }
+        return false;
+    }
 }
+

@@ -35,45 +35,52 @@ public class TodoController {
     }
 
     @GetMapping(value = "/",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Iterable<Todo>> getAllTodo() {
+    public ResponseEntity<Object> getAllTodo() {
         Iterable<Todo> result = todoService.getAllTodo();
 
-        if (result == null){
-            Map<String,String> msg = new HashMap<>();
-            msg.put("status","ok");
-            msg.put("message","No todo found");
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+        if (todoService.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(todoService.isEmptyMsg());
         }
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @GetMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Todo> getTodoById(@PathVariable Integer id){
-        Todo todo = todoService.getTodoById(id);
-
-        if (todo == null){
-            Map<String,String> msg = new HashMap<>();
-            msg.put("status","ok");
-            msg.put("message","No todo found");
-            return ResponseEntity.status(HttpStatus.OK).body(todo);
+    public ResponseEntity<Object> getTodoById(@PathVariable Integer id){
+        if (todoService.existsById(id)) {
+            Todo todo = todoService.getTodoById(id);
+            return ResponseEntity.ok().body(todo);
         }
-
-        return ResponseEntity.ok().body(todo);
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.isEmptyMsg());
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteTodoById(@PathVariable Integer id){
-        todoService.deleteTodoById(id);
+    public ResponseEntity<Object> deleteTodoById(@PathVariable Integer id){
+        if (todoService.existsById(id)){
+            todoService.deleteTodoById(id);
+            return getAllTodo();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.isEmptyMsg());
+
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable Integer id, @RequestBody Todo todo){
-        return ResponseEntity.ok().body(todoService.updateTodo(id, todo));
+    public ResponseEntity<Object> updateTodo(@PathVariable Integer id, @RequestBody Todo todo){
+        if (todoService.existsById(id)) {
+            return ResponseEntity.ok().body(todoService.updateTodo(id, todo));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.isEmptyMsg());
     }
 
     @DeleteMapping(value = "/")
-    public void deleteAllTodo(){
+    public ResponseEntity<Object> deleteAllTodo(){
+        if (todoService.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(todoService.isEmptyMsg());
+        }
         todoService.deleteAllTodo();
+        Map<String,String> msg = new HashMap<>();
+        msg.put("status","ok");
+        msg.put("message","All todos deleted!");
+        return ResponseEntity.status(HttpStatus.OK).body(msg);
     }
 
 }

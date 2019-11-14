@@ -5,6 +5,9 @@ import com.example.springtodoapp.repository.TodoInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class TodoService {
 
@@ -27,7 +30,7 @@ public class TodoService {
         Todo updateTodo = todoInterface.findById(id).get();
         updateTodo.setName(todo.getName());
         updateTodo.setContent(todo.getContent());
-        return updateTodo;
+        return todoInterface.save(updateTodo);
     }
 
     public void deleteTodoById(Integer id){
@@ -40,6 +43,21 @@ public class TodoService {
 
     public Boolean isEmpty(){
         if (todoInterface.count() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public Map<String,String> isEmptyMsg(){
+        Map<String,String> msg = new HashMap<>();
+        msg.put("status","ok");
+        msg.put("message","No todo found");
+
+        return msg;
+    }
+
+    public boolean existsById(Integer id){
+        if (todoInterface.existsById(id)){
             return true;
         }
         return false;

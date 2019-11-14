@@ -13,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/todo")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TodoController {
 
     private TodoService todoService;
@@ -22,8 +23,7 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.POST ,produces = MediaType.APPLICATION_JSON_VALUE,
-                        consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createTodo(@RequestBody Todo todo){
         Todo newTodo = todoService.createTodo(todo);
 
@@ -34,7 +34,7 @@ public class TodoController {
         return ResponseEntity.ok().body(msg);
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Todo>> getAllTodo() {
         Iterable<Todo> result = todoService.getAllTodo();
 
@@ -47,7 +47,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @RequestMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @GetMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Todo> getTodoById(@PathVariable Integer id){
         Todo todo = todoService.getTodoById(id);
 
@@ -61,17 +61,17 @@ public class TodoController {
         return ResponseEntity.ok().body(todo);
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteTodoById(@PathVariable Integer id){
         todoService.deleteTodoById(id);
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Integer id, @RequestBody Todo todo){
         return ResponseEntity.ok().body(todoService.updateTodo(id, todo));
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/")
     public void deleteAllTodo(){
         todoService.deleteAllTodo();
     }

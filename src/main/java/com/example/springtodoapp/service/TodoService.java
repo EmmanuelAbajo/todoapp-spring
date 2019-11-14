@@ -5,9 +5,6 @@ import com.example.springtodoapp.repository.TodoInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-
 @Service
 public class TodoService {
 

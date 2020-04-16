@@ -1,6 +1,9 @@
 package com.example.springtodoapp.entity;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Table(name = "Todos")
@@ -8,7 +11,7 @@ public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @Column(name = "name",nullable = false)
     private String name;
@@ -16,7 +19,9 @@ public class Todo {
     @Column(name = "content",nullable = false)
     private String content;
 
-    @ManyToOne
+    private String createdAt;
+
+    @ManyToOne(targetEntity = User.class)
     private User user;
 
     public Todo(){};
@@ -32,7 +37,7 @@ public class Todo {
         this.user = user;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -62,5 +67,11 @@ public class Todo {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @PrePersist
+    void createdAt() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        this.createdAt = dateFormat.format(new Date());
     }
 }

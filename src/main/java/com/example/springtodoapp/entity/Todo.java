@@ -19,6 +19,7 @@ public class Todo {
     @Column(name = "content",nullable = false)
     private String content;
 
+ // TODO: Add JPA auditing configuration
     private String createdAt;
 
     @ManyToOne(targetEntity = User.class)

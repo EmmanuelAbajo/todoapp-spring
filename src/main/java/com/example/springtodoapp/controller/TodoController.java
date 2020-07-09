@@ -17,10 +17,12 @@ public class TodoController {
 
     private final TodoService todoService;
 
+ // TODO: Add swagger documentation
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
 
+    
     @PostMapping(value = "/",consumes = "application/json")
     public ResponseEntity<Todo> createTodo(RequestEntity<Todo> request){
     	URI location = URI.create(request.getUrl().toString() + "/");

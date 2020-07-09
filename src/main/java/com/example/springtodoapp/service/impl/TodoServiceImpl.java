@@ -67,15 +67,11 @@ public class TodoServiceImpl implements TodoService {
     public void deleteTodoById(Long id){
     	try {
     		log.debug("Deleting todo with id: {}",id.toString());
-    		todoRepository.findById(id)
-			.ifPresent(todo -> {
-				todoRepository.delete(todo);
-				log.debug("Deleted data: {}",todo);
-			});
+    		todoRepository.delete(this.getTodoById(id));
+    		log.debug("Todo with id: {} deleted",id.toString());
     	}catch (Exception ex) {
     		throw ex;
     	}
-    	
     }
 
     
@@ -95,7 +91,6 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public void deleteAllTodo(){
     	try {
-    		// TODO: Check if data is available else throw no data available exception
     		log.debug("Deleting all todos");
     		todoRepository.deleteAll();
     	}catch (Exception ex) {

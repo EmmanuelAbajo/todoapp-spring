@@ -13,7 +13,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/todo",produces = "application/json",consumes = "application/json")
+@RequestMapping(value = "/todo",produces = "application/json")
 @CrossOrigin(origins = "*")
 public class TodoController {
 
@@ -46,7 +46,6 @@ public class TodoController {
     
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteTodoById(@PathVariable Long id){
-    	// TODO: Test for case where id is not found
     	todoService.deleteTodoById(id);
     	// TODO: return notification of successful deletion
     	return ResponseEntity.noContent().build();

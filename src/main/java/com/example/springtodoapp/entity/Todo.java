@@ -11,7 +11,7 @@ public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name",nullable = false)
     private String name;
@@ -20,6 +20,7 @@ public class Todo {
     @Column(name = "content",nullable = false)
     private String content;
 
+ // TODO: Add JPA auditing configuration
     private String createdAt;
 
     @ManyToOne
@@ -38,11 +39,11 @@ public class Todo {
         this.user = user;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

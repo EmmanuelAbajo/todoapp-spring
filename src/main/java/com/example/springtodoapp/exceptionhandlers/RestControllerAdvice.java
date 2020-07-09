@@ -26,35 +26,35 @@ public class RestControllerAdvice {
 	
 	@ExceptionHandler(value = TodoNotFoundException.class)
 	@RequestMapping(produces = "application/vnd.error+json")
-	public ResponseEntity<VndErrors> todoNotFoundExceptionHandler(TodoNotFoundException ex){
+	protected ResponseEntity<VndErrors> todoNotFoundExceptionHandler(TodoNotFoundException ex){
 		log.error(ex.getMessage());
 		return error(ex,HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(value = UserNotFoundException.class)
 	@RequestMapping(produces = "application/vnd.error+json")
-	public ResponseEntity<VndErrors> userNotFoundExceptionHandler(UserNotFoundException ex){
+	protected ResponseEntity<VndErrors> userNotFoundExceptionHandler(UserNotFoundException ex){
 		log.error(ex.getMessage());
 		return error(ex,HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(value = ConflictException.class)
 	@RequestMapping(produces = "application/vnd.error+json")
-	public ResponseEntity<VndErrors> conflictExceptionHandler(ConflictException ex){
+	protected ResponseEntity<VndErrors> conflictExceptionHandler(ConflictException ex){
 		log.error(ex.getMessage());
 		return error(ex, HttpStatus.CONFLICT);
 	}
 	
 	@ExceptionHandler(value = Exception.class)
 	@RequestMapping(produces = "application/vnd.error+json")
-	public ResponseEntity<VndErrors> globalErrorExceptionHandler(Exception ex){
+	protected ResponseEntity<VndErrors> globalErrorExceptionHandler(Exception ex){
 		log.error("Internal server error caught: {}",ex.getMessage());
 		return error(ex,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	
 	@ExceptionHandler(value = {InvalidRequestBodyException.class, HttpMessageNotReadableException.class,IllegalArgumentException.class})
-	public ResponseEntity<ErrorBody> invalidRequestBodyExceptionHandler(Exception ex){
+	protected ResponseEntity<ErrorBody> invalidRequestBodyExceptionHandler(Exception ex){
 		String msg = "Request body invalid";
 		ErrorBody error = new ErrorBody(
 				HttpStatus.BAD_REQUEST.value(),

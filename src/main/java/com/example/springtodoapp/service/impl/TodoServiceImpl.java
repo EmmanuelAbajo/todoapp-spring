@@ -6,11 +6,13 @@ import com.example.springtodoapp.exceptions.TodoNotFoundException;
 import com.example.springtodoapp.repository.TodoRepository;
 import com.example.springtodoapp.service.TodoService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ServerErrorException;
 
 
 @Service
@@ -78,14 +80,15 @@ public class TodoServiceImpl implements TodoService {
 
     
     @Override
-    public Iterable<Todo> getAllTodo() {
+    public List<Todo> getAllTodo() {
+    	List<Todo> todos = new ArrayList<>();
 		try {
-			// TODO: Check if data is available else throw no data available exception
 			log.debug("Getting all todos");
-			return todoRepository.findAll();
+			todoRepository.findAll().forEach(todos::add);;
 		} catch (Exception ex) {
 			throw ex;
-		}       
+		} 
+		return todos;
     }
     
     

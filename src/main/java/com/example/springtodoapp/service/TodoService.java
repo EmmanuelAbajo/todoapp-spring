@@ -1,9 +1,11 @@
 package com.example.springtodoapp.service;
 
+import java.util.List;
+
 import com.example.springtodoapp.entity.Todo;
 
 public interface TodoService {
-    Iterable<Todo> getAllTodo();
+    List<Todo> getAllTodo();
 
     Todo getTodoById(Long id);
 

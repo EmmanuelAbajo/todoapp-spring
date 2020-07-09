@@ -53,7 +53,7 @@ public class RestControllerAdvice {
 	}
 	
 	
-	@ExceptionHandler(value = {InvalidRequestBodyException.class, HttpMessageNotReadableException.class})
+	@ExceptionHandler(value = {InvalidRequestBodyException.class, HttpMessageNotReadableException.class,IllegalArgumentException.class})
 	public ResponseEntity<ErrorBody> invalidRequestBodyExceptionHandler(Exception ex){
 		String msg = "Request body invalid";
 		ErrorBody error = new ErrorBody(

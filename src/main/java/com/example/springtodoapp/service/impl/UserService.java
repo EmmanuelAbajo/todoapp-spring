@@ -1,12 +1,8 @@
-package com.example.springtodoapp.service;
+package com.example.springtodoapp.service.impl;
 
-import com.example.springtodoapp.entity.User;
 import com.example.springtodoapp.repository.CrudService;
-import com.example.springtodoapp.repository.UserInterface;
+import com.example.springtodoapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,7 +12,7 @@ import java.util.Map;
 public class UserService implements CrudService {
 
     @Autowired
-    private UserInterface userInterface;
+    private UserRepository userRepository;
 
     @Override
     public Map<String, String> isEmptyMsg() {
@@ -29,7 +25,7 @@ public class UserService implements CrudService {
 
     @Override
     public Boolean isEmpty() {
-        if (userInterface.count() == 0) {
+        if (userRepository.count() == 0) {
             return true;
         }
         return false;
@@ -37,7 +33,7 @@ public class UserService implements CrudService {
 
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = userInterface.findByUsername(username);
+//        User user = userRepository.findByUsername(username);
 //        if (user != null) {
 //            return user;
 //        }

@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/todo",produces = "application/json")
+@RequestMapping(value = "/todo",produces = "application/json",consumes = "application/json")
 @CrossOrigin(origins = "*")
 public class TodoController {
 
@@ -22,21 +24,21 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    
-    @PostMapping(value = "/",consumes = "application/json")
+    // TODO: Validate request body
+    @PostMapping(value = "/")
     public ResponseEntity<Todo> createTodo(RequestEntity<Todo> request){
     	URI location = URI.create(request.getUrl().toString() + "/");
         return ResponseEntity.created(location).body(todoService.createTodo(request.getBody()));
     }
 
-    
+    // TODO: Validate that input is a long
     @GetMapping(value="/{id}")
     public ResponseEntity<Object> getTodoById(@PathVariable Long id){
     	return ResponseEntity.ok().body(todoService.getTodoById(id));
     }
     
 
-    @PutMapping(value = "/{id}",consumes = "application/json")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
         return ResponseEntity.ok().body(todoService.updateTodo(id, todo));  
     }
@@ -52,15 +54,14 @@ public class TodoController {
     
     
     @GetMapping(value = "/")
-    public ResponseEntity<Iterable<Todo>> getAllTodo() {
-        Iterable<Todo> result = todoService.getAllTodo();
+    public ResponseEntity<List<Todo>> getAllTodo() {
+        List<Todo> result = todoService.getAllTodo();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 
     @DeleteMapping(value = "/")
     public ResponseEntity<Void> deleteAllTodo(){
-    	// TODO: Test for case where id is not found
     	todoService.deleteAllTodo();
     	// TODO: return notification of successful deletion
     	return ResponseEntity.noContent().build();

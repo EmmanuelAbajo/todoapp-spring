@@ -2,7 +2,7 @@ package com.example.springtodoapp.bootstrap;
 
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.service.TodoService;
-import com.example.springtodoapp.service.UserService;
+import com.example.springtodoapp.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

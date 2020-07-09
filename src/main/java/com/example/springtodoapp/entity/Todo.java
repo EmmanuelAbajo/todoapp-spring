@@ -16,12 +16,13 @@ public class Todo {
     @Column(name = "name",nullable = false)
     private String name;
 
+    @Lob
     @Column(name = "content",nullable = false)
     private String content;
 
     private String createdAt;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne
     private User user;
 
     public Todo(){};

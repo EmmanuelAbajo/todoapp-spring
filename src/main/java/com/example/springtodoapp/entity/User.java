@@ -11,21 +11,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "USER_PROFILE")
+@Table
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false,unique = true)
     private String email;
 
+    @Column(name = "username", nullable = false,unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
-    private String password; //Hash password before pushing to database
+    private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "User_Todo", joinColumns =@JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name = "Todo_id"))
     private Set<Todo> todos = new HashSet<>();
 
@@ -72,6 +76,14 @@ public class User implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Set<Todo> getTodos() {

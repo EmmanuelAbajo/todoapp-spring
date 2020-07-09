@@ -4,6 +4,6 @@ import com.example.springtodoapp.entity.Todo;
 import org.springframework.data.repository.CrudRepository;
 
 
-public interface TodoInterface extends CrudRepository<Todo,Integer> {
+public interface TodoRepository extends CrudRepository<Todo,Long> {
 
 }

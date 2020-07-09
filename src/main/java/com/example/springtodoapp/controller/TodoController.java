@@ -2,13 +2,13 @@ package com.example.springtodoapp.controller;
 
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.service.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/todo",produces = "application/json")
@@ -17,64 +17,51 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @Autowired
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
 
     @PostMapping(value = "/",consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Todo createTodo(@RequestBody Todo todo){
-        return todoService.createTodo(todo);
+    public ResponseEntity<Todo> createTodo(RequestEntity<Todo> request){
+    	URI location = URI.create(request.getUrl().toString() + "/");
+        return ResponseEntity.created(location).body(todoService.createTodo(request.getBody()));
     }
 
-    @GetMapping(value = "/")
-    public ResponseEntity<Object> getAllTodo() {
-        Iterable<Todo> result = todoService.getAllTodo();
+    
+    @GetMapping(value="/{id}")
+    public ResponseEntity<Object> getTodoById(@PathVariable Long id){
+    	return ResponseEntity.ok().body(todoService.getTodoById(id));
+    }
+    
 
-        if (todoService.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(todoService.isEmptyMsg());
-        }
+    @PutMapping(value = "/{id}",consumes = "application/json")
+    public ResponseEntity<Object> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
+        return ResponseEntity.ok().body(todoService.updateTodo(id, todo));  
+    }
+    
+    
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteTodoById(@PathVariable Long id){
+    	// TODO: Test for case where id is not found
+    	todoService.deleteTodoById(id);
+    	// TODO: return notification of successful deletion
+    	return ResponseEntity.noContent().build();
+    }
+    
+    
+    @GetMapping(value = "/")
+    public ResponseEntity<Iterable<Todo>> getAllTodo() {
+        Iterable<Todo> result = todoService.getAllTodo();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping(value="/{id}")
-    public ResponseEntity<Object> getTodoById(@PathVariable Integer id){
-        if (todoService.existsById(id)) {
-            Todo todo = todoService.getTodoById(id);
-            return ResponseEntity.ok().body(todo);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(todoService.isEmptyMsg());
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteTodoById(@PathVariable Integer id){
-        if (todoService.existsById(id)){
-            todoService.deleteTodoById(id);
-            return getAllTodo();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(todoService.isEmptyMsg());
-
-    }
-
-    @PutMapping(value = "/{id}",consumes = "application/json")
-    public ResponseEntity<Object> updateTodo(@PathVariable Integer id, @RequestBody Todo todo){
-        if (todoService.existsById(id)) {
-            return ResponseEntity.ok().body(todoService.updateTodo(id, todo));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(todoService.isEmptyMsg());
-    }
 
     @DeleteMapping(value = "/")
-    public ResponseEntity<Object> deleteAllTodo(){
-        if (todoService.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(todoService.isEmptyMsg());
-        }
-        todoService.deleteAllTodo();
-        Map<String,String> msg = new HashMap<>();
-        msg.put("status","ok");
-        msg.put("message","All todos deleted!");
-        return ResponseEntity.status(HttpStatus.OK).body(msg);
+    public ResponseEntity<Void> deleteAllTodo(){
+    	// TODO: Test for case where id is not found
+    	todoService.deleteAllTodo();
+    	// TODO: return notification of successful deletion
+    	return ResponseEntity.noContent().build();
     }
 
 }

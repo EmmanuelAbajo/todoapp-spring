@@ -20,13 +20,15 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "email", nullable = false)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password; //Hash password before pushing to database
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "User_Todo", joinColumns =@JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name = "Todo_id"))
+    @JoinTable(name = "User_Todo", joinColumns =@JoinColumn(name = "User_id"), 
+    inverseJoinColumns = @JoinColumn(name = "Todo_id"))
     private Set<Todo> todos = new HashSet<>();
 
     public User(){}

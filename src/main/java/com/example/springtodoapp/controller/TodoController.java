@@ -33,13 +33,13 @@ public class TodoController {
 
     // TODO: Validate that input is a long
     @GetMapping(value="/{id}")
-    public ResponseEntity<Object> getTodoById(@PathVariable Long id){
+    public ResponseEntity<Todo> getTodoById(@PathVariable Long id){
     	return ResponseEntity.ok().body(todoService.getTodoById(id));
     }
     
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
         return ResponseEntity.ok().body(todoService.updateTodo(id, todo));  
     }
     

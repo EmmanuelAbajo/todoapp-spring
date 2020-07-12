@@ -54,8 +54,7 @@ public class TodoController {
     
     @GetMapping(value = "/")
     public ResponseEntity<List<Todo>> getAllTodo() {
-        List<Todo> result = todoService.getAllTodo();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.getAllTodo());
     }
 
 

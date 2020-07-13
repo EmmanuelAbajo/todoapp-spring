@@ -1,23 +1,23 @@
 package com.example.springtodoapp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.junit.Test;
-//import org.junit.Before;
-//import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.repository.TodoRepository;
 import com.example.springtodoapp.service.TodoService;
 
-//@RunWith(SpringRunner.class)
+@SpringBootTest
 public class TodoServiceTest {
 	
 	@Autowired
@@ -26,18 +26,25 @@ public class TodoServiceTest {
 	@MockBean
 	private TodoRepository todoRepository;
 	
-//	@Before
-//	public void setUp() {
-//	
-//	}
-		
+	Optional<Todo> todo;
+	
+	@BeforeEach
+	public void setUp() {
+		todo = Optional.of(new Todo("Call tolu","This is to happen next friday"));
+		todo.get().setId(1L);
+		Mockito.when(todoRepository.findById(todo.get().getId()))
+			.thenReturn(todo);
+	}
 		
 	@Test
 	public void getTodoById() throws Exception {
-		Optional<Todo> todo = Optional.of(new Todo("Call tolu","This is to happen next friday"));
-		Mockito.when(todoRepository.findById(todo.get().getId()))
-			.thenReturn(todo);
-		assertEquals(todoService.getTodoById(todo.get().getId()),todo);
+		assertEquals(todo.get(),todoService.getTodoById(todo.get().getId()));
+	}
+	
+	@Test
+	public void getAllTodo() throws Exception {
+		List<Todo> todos = todoService.getAllTodo();
+		assertEquals(todos.size(),0);
 	}
 	
 	

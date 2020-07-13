@@ -3,11 +3,9 @@ package com.example.springtodoapp.controller;
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.service.TodoService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,9 +24,8 @@ public class TodoController {
 
     // TODO: Validate request body
     @PostMapping(value = "/")
-    public ResponseEntity<Todo> createTodo(RequestEntity<Todo> request){
-    	URI location = URI.create(request.getUrl().toString() + "/");
-        return ResponseEntity.created(location).body(todoService.createTodo(request.getBody()));
+    public ResponseEntity<Todo> createTodo(@RequestBody Todo request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request));
     }
 
     // TODO: Validate that input is a long

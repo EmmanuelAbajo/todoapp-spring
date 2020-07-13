@@ -1,5 +1,6 @@
-package com.example.springtodoapp;
+package com.example.springtodoapp.unittests;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -30,14 +31,20 @@ public class TodoServiceTest {
 	
 	@BeforeEach
 	public void setUp() {
-		todo = Optional.of(new Todo("Call tolu","This is to happen next friday"));
+		todo = Optional.of(new Todo("",""));
 		todo.get().setId(1L);
 		Mockito.when(todoRepository.findById(todo.get().getId()))
 			.thenReturn(todo);
 	}
+	
+	@Test
+	public void contextLoads() throws Exception {
+		assertThat(todoService).isNotNull();
+	}
 		
 	@Test
 	public void getTodoById() throws Exception {
+		assertNotNull(todoService.getTodoById(todo.get().getId()));
 		assertEquals(todo.get(),todoService.getTodoById(todo.get().getId()));
 	}
 	

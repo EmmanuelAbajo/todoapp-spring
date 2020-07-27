@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.springtodoapp.entity.Todo;
 
-@SpringBootTest
 public class TodoTest {
 	
 	private static Todo todo;

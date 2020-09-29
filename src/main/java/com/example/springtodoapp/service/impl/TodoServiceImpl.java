@@ -5,7 +5,6 @@ import com.example.springtodoapp.exceptions.ConflictException;
 import com.example.springtodoapp.exceptions.TodoNotFoundException;
 import com.example.springtodoapp.repository.TodoRepository;
 import com.example.springtodoapp.service.TodoService;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +20,10 @@ public class TodoServiceImpl implements TodoService {
 
 	private static final Logger log = LoggerFactory.getLogger(TodoServiceImpl.class);
     private final TodoRepository todoRepository;
-    private final Gson gson;
+ 
     
-    public TodoServiceImpl(TodoRepository todoRepository, Gson gson) {
+    public TodoServiceImpl(TodoRepository todoRepository) {
 		this.todoRepository = todoRepository;
-		this.gson = gson;
 	}
 
 	
@@ -41,7 +39,7 @@ public class TodoServiceImpl implements TodoService {
     public Todo createTodo(Todo todo){
     	// TODO: If body is invalid, throw invalid body exception
     	try {
-    		log.debug("Saving data: {}",gson.toJson(todo));
+    		log.debug("Saving data: {}",todo.toString());
     		return todoRepository.save(todo);
     	}catch (Exception ex) {
     		if (ex instanceof DataIntegrityViolationException) {
@@ -58,7 +56,7 @@ public class TodoServiceImpl implements TodoService {
     	// TODO: If body is invalid, throw invalid body exception
         return todoRepository.findById(id)
         		.map(item -> {
-        			log.debug("Updating data for: {}",gson.toJson(item));
+        			log.debug("Updating data for: {}",item.toString());
         			item.setName(todo.getName());
         			item.setContent(todo.getContent());
         			return this.createTodo(item);

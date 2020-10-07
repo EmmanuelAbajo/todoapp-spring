@@ -1,6 +1,7 @@
 package com.example.springtodoapp.service.impl;
 
 import com.example.springtodoapp.entity.Todo;
+import com.example.springtodoapp.entity.User;
 import com.example.springtodoapp.exceptions.ConflictException;
 import com.example.springtodoapp.exceptions.TodoNotFoundException;
 import com.example.springtodoapp.repository.TodoRepository;
@@ -12,6 +13,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
@@ -25,6 +27,12 @@ public class TodoServiceImpl implements TodoService {
     public TodoServiceImpl(TodoRepository todoRepository) {
 		this.todoRepository = todoRepository;
 	}
+    
+    @Override
+    public List<Todo> getTodosByUser(String userName){
+    	log.debug("Getting todos for {}", userName);
+    	return todoRepository.findByUserName(userName);
+    }
 
 	
     @Override
@@ -39,6 +47,7 @@ public class TodoServiceImpl implements TodoService {
     public Todo createTodo(Todo todo){
     	// TODO: If body is invalid, throw invalid body exception
     	try {
+    		todo.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     		log.debug("Saving data: {}",todo.toString());
     		return todoRepository.save(todo);
     	}catch (Exception ex) {

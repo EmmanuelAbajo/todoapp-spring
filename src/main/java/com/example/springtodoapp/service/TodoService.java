@@ -6,6 +6,8 @@ import com.example.springtodoapp.entity.Todo;
 
 public interface TodoService {
     List<Todo> getAllTodo();
+    
+    List<Todo> getTodosByUser(String userName);
 
     Todo getTodoById(Long id);
 

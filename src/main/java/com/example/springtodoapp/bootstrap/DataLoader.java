@@ -25,8 +25,8 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Todo todo1 = new Todo("dependency injection","Practice dependency injection using spring");
-        Todo todo2 = new Todo("dependency injection","Practice dependency injection using nodejs");
+        Todo todo1 = new Todo("","dependency injection","Practice dependency injection using spring");
+        Todo todo2 = new Todo("","dependency injection","Practice dependency injection using nodejs");
 
         todoService.createTodo(todo1);
         todoService.createTodo(todo2);

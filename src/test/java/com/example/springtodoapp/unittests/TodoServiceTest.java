@@ -32,8 +32,7 @@ public class TodoServiceTest {
 	@BeforeEach
 	public void setUp() {
 		todo = Optional.of(new Todo("",""));
-		todo.get().setId(1L);
-		Mockito.when(todoRepository.findById(todo.get().getId()))
+		Mockito.when(todoRepository.findById(1L))
 			.thenReturn(todo);
 	}
 	
@@ -44,8 +43,8 @@ public class TodoServiceTest {
 		
 	@Test
 	public void getTodoById() throws Exception {
-		assertNotNull(todoService.getTodoById(todo.get().getId()));
-		assertEquals(todo.get(),todoService.getTodoById(todo.get().getId()));
+		assertNotNull(todoService.getTodoById(1L));
+		assertEquals(todo.get(),todoService.getTodoById(1L));
 	}
 	
 	@Test

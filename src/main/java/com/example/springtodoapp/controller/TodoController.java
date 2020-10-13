@@ -3,17 +3,15 @@ package com.example.springtodoapp.controller;
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.service.TodoService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/todo",produces = "application/json",consumes = "application/json")
+@RequestMapping(value = "/todo",produces = "application/json")
 @CrossOrigin(origins = "*")
 public class TodoController {
 
@@ -26,27 +24,25 @@ public class TodoController {
 
     // TODO: Validate request body
     @PostMapping(value = "/")
-    public ResponseEntity<Todo> createTodo(RequestEntity<Todo> request){
-    	URI location = URI.create(request.getUrl().toString() + "/");
-        return ResponseEntity.created(location).body(todoService.createTodo(request.getBody()));
+    public ResponseEntity<Todo> createTodo(@RequestBody Todo request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request));
     }
 
     // TODO: Validate that input is a long
     @GetMapping(value="/{id}")
-    public ResponseEntity<Object> getTodoById(@PathVariable Long id){
+    public ResponseEntity<Todo> getTodoById(@PathVariable Long id){
     	return ResponseEntity.ok().body(todoService.getTodoById(id));
     }
     
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
         return ResponseEntity.ok().body(todoService.updateTodo(id, todo));  
     }
     
     
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteTodoById(@PathVariable Long id){
-    	// TODO: Test for case where id is not found
     	todoService.deleteTodoById(id);
     	// TODO: return notification of successful deletion
     	return ResponseEntity.noContent().build();
@@ -55,8 +51,7 @@ public class TodoController {
     
     @GetMapping(value = "/")
     public ResponseEntity<List<Todo>> getAllTodo() {
-        List<Todo> result = todoService.getAllTodo();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.getAllTodo());
     }
 
 

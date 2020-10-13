@@ -20,6 +20,7 @@ public class TodoServiceImpl implements TodoService {
 
 	private static final Logger log = LoggerFactory.getLogger(TodoServiceImpl.class);
     private final TodoRepository todoRepository;
+ 
     
     public TodoServiceImpl(TodoRepository todoRepository) {
 		this.todoRepository = todoRepository;
@@ -28,7 +29,7 @@ public class TodoServiceImpl implements TodoService {
 	
     @Override
     public Todo getTodoById(Long id) {
-    	log.debug("Finding todo with id: {}",id.toString());
+    	log.info("Finding todo with id: {}",id.toString());
         return todoRepository.findById(id)
         		.orElseThrow(()-> new TodoNotFoundException(Todo.class,id));
     }
@@ -38,12 +39,13 @@ public class TodoServiceImpl implements TodoService {
     public Todo createTodo(Todo todo){
     	// TODO: If body is invalid, throw invalid body exception
     	try {
-    		log.debug("Saving data: {}",todo);
+    		log.debug("Saving data: {}",todo.toString());
     		return todoRepository.save(todo);
     	}catch (Exception ex) {
     		if (ex instanceof DataIntegrityViolationException) {
     			throw new ConflictException(todo.getId());
     		}
+//    		log.error(ex.getMessage(),ex);
     		throw ex;
     	}
     }
@@ -54,7 +56,7 @@ public class TodoServiceImpl implements TodoService {
     	// TODO: If body is invalid, throw invalid body exception
         return todoRepository.findById(id)
         		.map(item -> {
-        			log.debug("Updating data for: {}",item);
+        			log.debug("Updating data for: {}",item.toString());
         			item.setName(todo.getName());
         			item.setContent(todo.getContent());
         			return this.createTodo(item);
@@ -67,15 +69,12 @@ public class TodoServiceImpl implements TodoService {
     public void deleteTodoById(Long id){
     	try {
     		log.debug("Deleting todo with id: {}",id.toString());
-    		todoRepository.findById(id)
-			.ifPresent(todo -> {
-				todoRepository.delete(todo);
-				log.debug("Deleted data: {}",todo);
-			});
+    		todoRepository.delete(this.getTodoById(id));
+    		log.debug("Todo with id: {} deleted",id.toString());
     	}catch (Exception ex) {
+//    		log.error(ex.getMessage(),ex);
     		throw ex;
     	}
-    	
     }
 
     
@@ -86,6 +85,7 @@ public class TodoServiceImpl implements TodoService {
 			log.debug("Getting all todos");
 			todoRepository.findAll().forEach(todos::add);;
 		} catch (Exception ex) {
+//			log.error(ex.getMessage(),ex);
 			throw ex;
 		} 
 		return todos;
@@ -95,10 +95,10 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public void deleteAllTodo(){
     	try {
-    		// TODO: Check if data is available else throw no data available exception
     		log.debug("Deleting all todos");
     		todoRepository.deleteAll();
     	}catch (Exception ex) {
+//    		log.error(ex.getMessage(),ex);
     		throw ex;
     	}
     }

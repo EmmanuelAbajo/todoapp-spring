@@ -76,4 +76,12 @@ public class Todo {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         this.createdAt = dateFormat.format(new Date());
     }
+
+	@Override
+	public String toString() {
+		return "Todo [id=" + id + ", name=" + name + ", content=" + content + ", createdAt=" + createdAt + ", user="
+				+ user + "]";
+	}
+    
+    
 }

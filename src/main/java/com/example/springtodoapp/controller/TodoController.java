@@ -2,6 +2,9 @@ package com.example.springtodoapp.controller;
 
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.service.TodoService;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +14,25 @@ import java.util.List;
 import javax.validation.Valid;
 
 @RestController
+@RefreshScope
 @RequestMapping(value = "/todo",produces = "application/json")
 @CrossOrigin(origins = "*")
 public class TodoController {
 
     private final TodoService todoService;
+    
+    @Value("${sample.config.key}")
+    private String key;
+    
 
  // TODO: Add swagger documentation
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
+    }
+    
+    @GetMapping(value="/key")
+    public String getKey() {
+    	return key;
     }
 
     // TODO: Validate request body

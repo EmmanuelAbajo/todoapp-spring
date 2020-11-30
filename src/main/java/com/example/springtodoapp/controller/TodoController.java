@@ -1,6 +1,7 @@
 package com.example.springtodoapp.controller;
 
-import com.example.springtodoapp.entity.Todo;
+import com.example.springtodoapp.dto.TodoRequestDTO;
+import com.example.springtodoapp.dto.TodoResponseDTO;
 import com.example.springtodoapp.service.TodoService;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -37,19 +38,19 @@ public class TodoController {
 
     // TODO: Validate request body
     @PostMapping(value = "/")
-    public ResponseEntity<Todo> createTodo(@RequestBody Todo request){
+    public ResponseEntity<TodoResponseDTO> createTodo(@RequestBody TodoRequestDTO request){
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request));
     }
 
     // TODO: Validate that input is a long
     @GetMapping(value="/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable Long id){
+    public ResponseEntity<TodoResponseDTO> getTodoById(@PathVariable Long id){
     	return ResponseEntity.ok().body(todoService.getTodoById(id));
     }
     
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todo){
+    public ResponseEntity<TodoResponseDTO> updateTodo(@PathVariable Long id, @Valid @RequestBody TodoRequestDTO todo){
         return ResponseEntity.ok().body(todoService.updateTodo(id, todo));  
     }
     
@@ -63,7 +64,7 @@ public class TodoController {
     
     
     @GetMapping(value = "/")
-    public ResponseEntity<List<Todo>> getAllTodo() {
+    public ResponseEntity<List<TodoResponseDTO>> getAllTodo() {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.getAllTodo());
     }
 

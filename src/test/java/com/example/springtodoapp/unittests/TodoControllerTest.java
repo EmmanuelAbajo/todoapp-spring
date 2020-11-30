@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.springtodoapp.controller.TodoController;
+import com.example.springtodoapp.dto.TodoResponseDTO;
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.service.TodoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,13 +31,13 @@ public class TodoControllerTest {
 
 	@Test
 	public void getById() throws Exception {
-		Mockito.when(todoService.getTodoById(1L)).thenReturn(new Todo("code review", "do code review"));
+		Mockito.when(todoService.getTodoById(1L)).thenReturn(new TodoResponseDTO("code review", "do code review"));
 		this.mockMvc.perform(get("/todo/1")).andDo(print()).andExpect(status().isOk());
 	}
 
 	@Test
 	public void getAll() throws Exception {
-		Mockito.when(todoService.getAllTodo()).thenReturn(Arrays.asList(new Todo("code review", "do code review")));
+		Mockito.when(todoService.getAllTodo()).thenReturn(Arrays.asList(new TodoResponseDTO("code review", "do code review")));
 		this.mockMvc.perform(get("/todo/")).andDo(print()).andExpect(status().isOk());
 
 	}

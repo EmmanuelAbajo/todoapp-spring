@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.example.springtodoapp.dto.TodoResponseDTO;
 import com.example.springtodoapp.entity.Todo;
 import com.example.springtodoapp.repository.TodoRepository;
 import com.example.springtodoapp.service.TodoService;
@@ -49,7 +50,7 @@ public class TodoServiceTest {
 	
 	@Test
 	public void getAllTodo() throws Exception {
-		List<Todo> todos = todoService.getAllTodo();
+		List<TodoResponseDTO> todos = todoService.getAllTodo();
 		assertEquals(todos.size(),0);
 	}
 	

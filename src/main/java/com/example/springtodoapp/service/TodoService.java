@@ -2,16 +2,17 @@ package com.example.springtodoapp.service;
 
 import java.util.List;
 
-import com.example.springtodoapp.entity.Todo;
+import com.example.springtodoapp.dto.TodoRequestDTO;
+import com.example.springtodoapp.dto.TodoResponseDTO;
 
 public interface TodoService {
-    List<Todo> getAllTodo();
+    List<TodoResponseDTO> getAllTodo();
 
-    Todo getTodoById(Long id);
+    TodoResponseDTO getTodoById(Long id);
 
-    Todo createTodo(Todo todo);
+    TodoResponseDTO createTodo(TodoRequestDTO request);
 
-    Todo updateTodo(Long id, Todo todo);
+    TodoResponseDTO updateTodo(Long id, TodoRequestDTO request);
 
     void deleteTodoById(Long id);
 

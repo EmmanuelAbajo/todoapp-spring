@@ -26,9 +26,8 @@ public class TodoController {
     
 
  // TODO: Add swagger documentation
-    public TodoController(TodoService todoService,UserService userService) {
+    public TodoController(TodoService todoService) {
         this.todoService = todoService;
-        this.userService = userService;
     }
     
     @GetMapping(value="/key")

@@ -30,6 +30,11 @@ public class Todo {
     private String createdBy;
 
     public Todo(){};
+    
+    public Todo(String name, String content) {
+        this.name = name;
+        this.content = content;
+    }
 
     public Todo(String createdBy, String name, String content) {
     	this.createdBy = createdBy;

@@ -25,10 +25,14 @@ public class Todo {
 
     @ManyToOne
     private User user;
+    
+    @ManyToOne
+    private String createdBy;
 
     public Todo(){};
 
-    public Todo(String name, String content) {
+    public Todo(String createdBy, String name, String content) {
+    	this.createdBy = createdBy;
         this.name = name;
         this.content = content;
     }
@@ -70,8 +74,17 @@ public class Todo {
     public void setUser(User user) {
         this.user = user;
     }
+    
 
-    @PrePersist
+    public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	@PrePersist
     void createdAt() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         this.createdAt = dateFormat.format(new Date());
@@ -80,7 +93,7 @@ public class Todo {
 	@Override
 	public String toString() {
 		return "Todo [id=" + id + ", name=" + name + ", content=" + content + ", createdAt=" + createdAt + ", user="
-				+ user + "]";
+				+ user + ", createdBy=" + createdBy + "]";
 	}
     
     

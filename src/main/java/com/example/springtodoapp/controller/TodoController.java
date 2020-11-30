@@ -17,7 +17,6 @@ import javax.validation.Valid;
 @RestController
 @RefreshScope
 @RequestMapping(value = "/todo",produces = "application/json")
-@CrossOrigin(origins = "*")
 public class TodoController {
 
     private final TodoService todoService;
@@ -27,8 +26,9 @@ public class TodoController {
     
 
  // TODO: Add swagger documentation
-    public TodoController(TodoService todoService) {
+    public TodoController(TodoService todoService,UserService userService) {
         this.todoService = todoService;
+        this.userService = userService;
     }
     
     @GetMapping(value="/key")
@@ -62,14 +62,13 @@ public class TodoController {
     	return ResponseEntity.noContent().build();
     }
     
-    
     @GetMapping(value = "/")
     public ResponseEntity<List<TodoResponseDTO>> getAllTodo() {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.getAllTodo());
     }
 
 
-    @DeleteMapping(value = "/")
+    @DeleteMapping(value = "/all/")
     public ResponseEntity<Void> deleteAllTodo(){
     	todoService.deleteAllTodo();
     	// TODO: return notification of successful deletion

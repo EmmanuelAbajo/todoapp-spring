@@ -4,6 +4,7 @@ import com.example.springtodoapp.assembler.TodoAssembler;
 import com.example.springtodoapp.dto.TodoRequestDTO;
 import com.example.springtodoapp.dto.TodoResponseDTO;
 import com.example.springtodoapp.entity.Todo;
+import com.example.springtodoapp.entity.User;
 import com.example.springtodoapp.exceptions.ConflictException;
 import com.example.springtodoapp.exceptions.TodoNotFoundException;
 import com.example.springtodoapp.repository.TodoRepository;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
@@ -32,6 +34,12 @@ public class TodoServiceImpl implements TodoService {
 		this.todoRepository = todoRepository;
 		this.todoAssembler = todoAssembler;
 	}
+    
+    @Override
+    public List<Todo> getTodosByUser(String userName){
+    	log.debug("Getting todos for {}", userName);
+    	return todoRepository.findByUserName(userName);
+    }
 
 	
     @Override

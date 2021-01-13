@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.springtodoapp.entity.Todo;
 
@@ -16,7 +15,7 @@ public class TodoTest {
 	
 	@BeforeAll
 	public static void setUp() {
-		todo = new Todo();
+		todo = new Todo("","");
 	}
 	
 	@Test
@@ -40,8 +39,8 @@ public class TodoTest {
 		assertNotNull(todo.getContent());
 	}
 	
-	@Test
-	public void getUser() {
-		assertNull(todo.getUser());
-	}
+//	@Test
+//	public void getUser() {
+//		assertNull(todo.getUser());
+//	}
 }

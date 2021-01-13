@@ -21,8 +21,8 @@ public class TodoController {
 
     private final TodoService todoService;
     
-    @Value("${sample.config.key}")
-    private String key;
+//    @Value("${sample.config.key}")
+//    private String key;
     
 
  // TODO: Add swagger documentation
@@ -30,10 +30,10 @@ public class TodoController {
         this.todoService = todoService;
     }
     
-    @GetMapping(value="/key")
-    public String getKey() {
-    	return key;
-    }
+//    @GetMapping(value="/key")
+//    public String getKey() {
+//    	return key;
+//    }
 
     // TODO: Validate request body
     @PostMapping(value = "/")

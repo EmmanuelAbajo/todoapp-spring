@@ -9,97 +9,62 @@ import java.util.Date;
 @Table(name = "Todos")
 public class Todo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @Column(name = "name",nullable = false)
-    private String name;
+	@Column(name = "name", nullable = false)
+	private String name;
 
-    @Lob
-    @Column(name = "content",nullable = false)
-    private String content;
+	@Lob
+	@Column(name = "content", nullable = false)
+	private String content;
 
- // TODO: Add JPA auditing configuration
-    private String createdAt;
+	// TODO: Add JPA auditing configuration
+	@Column
+	private String createdAt;
 
-    @ManyToOne
-    private User user;
-    
-    @ManyToOne
-    private String createdBy;
+	protected Todo() {
+	};
 
-    public Todo(){};
-    
-    public Todo(String name, String content) {
-        this.name = name;
-        this.content = content;
-    }
-
-    public Todo(String createdBy, String name, String content) {
-    	this.createdBy = createdBy;
-        this.name = name;
-        this.content = content;
-    }
-
-    public Todo(String name, String content, User user) {
-        this.name = name;
-        this.content = content;
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-
-    public String getCreatedBy() {
-		return createdBy;
+	public Todo(String name, String content) {
+		this.name = name;
+		this.content = content;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@PrePersist
-    void createdAt() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        this.createdAt = dateFormat.format(new Date());
-    }
+	void createdAt() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.createdAt = dateFormat.format(new Date());
+	}
 
 	@Override
 	public String toString() {
-		return "Todo [id=" + id + ", name=" + name + ", content=" + content + ", createdAt=" + createdAt + ", user="
-				+ user + ", createdBy=" + createdBy + "]";
+		return "Todo [id=" + id + ", name=" + name + ", content=" + content + ", createdAt=" + createdAt + "]";
 	}
-    
-    
+
 }

@@ -2,7 +2,11 @@ package com.example.springtodoapp.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,9 +19,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.userdetails.User;
 
-import com.example.springtodoapp.entity.User;
+import com.example.springtodoapp.dto.LoginDTO;
+import com.example.springtodoapp.entity.Role;
+//import com.example.springtodoapp.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -26,15 +35,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 	public JWTAuthenticationFilter(AuthenticationManager authManager) {
 		this.authManager = authManager;
-		setFilterProcessesUrl("/api/user/login"); 
+		setFilterProcessesUrl(SecurityConstants.LOGIN_URL); 
 	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		
+		System.out.println("JWT Auth");
 		try {
-			User cred = new ObjectMapper().readValue(request.getInputStream(),User.class);
+			LoginDTO cred = new ObjectMapper().readValue(request.getInputStream(),LoginDTO.class);
 			return authManager.authenticate(new UsernamePasswordAuthenticationToken(
 					cred.getUsername(),
 					cred.getPassword(),
@@ -49,8 +58,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		// TODO Auto-generated method stub
+		System.out.println("JWT Auth Success");
+		Collection<GrantedAuthority> roles = ((User) authResult.getPrincipal()).getAuthorities();
 		String token = JWT.create()
                 .withSubject(((User) authResult.getPrincipal()).getUsername())
+                .withClaim("roles", roles.stream().map(role -> role.getAuthority())
+                		.filter(Objects::nonNull).collect(Collectors.toList()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
 		

@@ -2,6 +2,7 @@ package com.example.springtodoapp.bootstrap;
 
 import com.example.springtodoapp.dto.TodoRequestDTO;
 import com.example.springtodoapp.service.TodoService;
+import com.example.springtodoapp.service.UserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,12 @@ public class DataLoader implements CommandLineRunner {
 
 	private static final Logger log = LoggerFactory.getLogger(DataLoader.class);
     private final TodoService todoService;
+    private final UserService userService;
 
     @Autowired
-    public DataLoader(TodoService todoService) {
+    public DataLoader(TodoService todoService, UserService userService) {
         this.todoService = todoService;
+        this.userService = userService;
     }
 
     @Override
@@ -27,6 +30,8 @@ public class DataLoader implements CommandLineRunner {
 
         todoService.createTodo(todo1);
         todoService.createTodo(todo2);
+        
+        userService.createAdmin("temmy", "password", "email@gmail.com");
 
         log.info("Data loaded successfully");
     }

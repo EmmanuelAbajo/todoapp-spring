@@ -8,6 +8,7 @@ import com.example.springtodoapp.exceptions.ConflictException;
 import com.example.springtodoapp.exceptions.TodoNotFoundException;
 import com.example.springtodoapp.repository.TodoRepository;
 import com.example.springtodoapp.service.TodoService;
+import com.example.springtodoapp.service.UserService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,13 +25,15 @@ import org.springframework.stereotype.Service;
 public class TodoServiceImpl implements TodoService {
 
 	private static final Logger log = LoggerFactory.getLogger(TodoServiceImpl.class);
+	private final UserService userService;
     private final TodoRepository todoRepository;
     private final TodoAssembler todoAssembler;
  
     
-    public TodoServiceImpl(TodoRepository todoRepository, TodoAssembler todoAssembler) {
+    public TodoServiceImpl(TodoRepository todoRepository, TodoAssembler todoAssembler, UserService userService) {
 		this.todoRepository = todoRepository;
 		this.todoAssembler = todoAssembler;
+		this.userService = userService;
 	}
     
  
@@ -105,7 +108,7 @@ public class TodoServiceImpl implements TodoService {
     	List<TodoResponseDTO> todos = new ArrayList<>();
 		try {
 			log.debug("Getting all todos");
-			Iterator<Todo> result = todoRepository.findAll().iterator();
+			Iterator<Todo> result = todoRepository.findByUserId(userService.getLoggedInUser().getId()).iterator();
 			while (result.hasNext()) {
 				Todo todo = result.next();
 				todos.add(todoAssembler.mapEntityToDTO(todo));

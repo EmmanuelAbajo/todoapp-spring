@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.springtodoapp.entity.Role;
 import com.example.springtodoapp.entity.User;
+import com.example.springtodoapp.exceptions.UserNotFoundException;
 import com.example.springtodoapp.repository.RoleRepository;
 import com.example.springtodoapp.repository.UserRepository;
 import com.example.springtodoapp.service.UserService;
@@ -29,14 +30,15 @@ public class UserServiceImpl implements UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	public String getLoggedinUserName() {
+	public User getLoggedInUser() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+		
 		if (principal instanceof UserDetails) {
-			return ((UserDetails) principal).getUsername();
+			String username = ((UserDetails) principal).getUsername();
+			return userRepository.findByUsername(username).orElseThrow(()-> new UserNotFoundException(User.class,principal.toString()));
 		}
 
-		return principal.toString();
+		return userRepository.findByUsername(principal.toString()).orElseThrow(()-> new UserNotFoundException(User.class,principal.toString()));
 	}
 
 	@Override

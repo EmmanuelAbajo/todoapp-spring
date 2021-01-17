@@ -5,9 +5,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table
@@ -30,10 +28,9 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "User_Todo", joinColumns = @JoinColumn(name = "User_id"), inverseJoinColumns = @JoinColumn(name = "Todo_id"))
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private Set<Todo> todos = new HashSet<>();
+	private List<Todo> todos;
 
 	protected User() {
 	}
@@ -86,11 +83,11 @@ public class User {
 		this.roles = roles;
 	}
 
-	public Set<Todo> getTodos() {
+	public List<Todo> getTodos() {
 		return todos;
 	}
 
-	public void setTodos(Set<Todo> todos) {
+	public void setTodos(List<Todo> todos) {
 		this.todos = todos;
 	}
 

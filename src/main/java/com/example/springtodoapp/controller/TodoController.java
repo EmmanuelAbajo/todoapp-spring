@@ -3,11 +3,13 @@ package com.example.springtodoapp.controller;
 import com.example.springtodoapp.dto.TodoRequestDTO;
 import com.example.springtodoapp.dto.TodoResponseDTO;
 import com.example.springtodoapp.service.TodoService;
+import com.example.springtodoapp.service.UserService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +22,15 @@ import javax.validation.Valid;
 public class TodoController {
 
     private final TodoService todoService;
-    
+    private final UserService userService;
 //    @Value("${sample.config.key}")
 //    private String key;
     
 
  // TODO: Add swagger documentation
-    public TodoController(TodoService todoService) {
+    public TodoController(TodoService todoService, UserService userService) {
         this.todoService = todoService;
+        this.userService = userService;
     }
     
 //    @GetMapping(value="/key")
@@ -36,8 +39,10 @@ public class TodoController {
 //    }
 
     // TODO: Validate request body
-    @PostMapping(value = "/")
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<TodoResponseDTO> createTodo(@RequestBody TodoRequestDTO request){
+    	request.setUser(userService.getLoggedInUser());
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request));
     }
 
@@ -61,13 +66,14 @@ public class TodoController {
     	return ResponseEntity.noContent().build();
     }
     
-    @GetMapping(value = "/")
+    @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<TodoResponseDTO>> getAllTodo() {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.getAllTodo());
     }
 
 
-    @DeleteMapping(value = "/all/")
+    @DeleteMapping
     public ResponseEntity<Void> deleteAllTodo(){
     	todoService.deleteAllTodo();
     	// TODO: return notification of successful deletion

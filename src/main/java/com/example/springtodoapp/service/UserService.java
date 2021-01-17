@@ -6,6 +6,8 @@ import java.util.Optional;
 import com.example.springtodoapp.entity.User;
 
 public interface UserService {
+	
+	User getLoggedInUser();
 
 	Optional<User> signin(String username, String password, String email);
 	

@@ -18,7 +18,7 @@ public class TodoAssembler {
 	}
 	
 	public Todo mapDTOToEntity(TodoRequestDTO request) {
-		Todo todo = new Todo(request.getName(),request.getContent());
+		Todo todo = new Todo(request.getName(),request.getContent(), request.getUser());
 		return todo;
 	}
 	

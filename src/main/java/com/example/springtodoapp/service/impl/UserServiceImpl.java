@@ -61,8 +61,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public
 	Optional<User> createAdmin(String username, String password, String email) {
-		roleRepository.save(new Role("ROLE_ADMIN", "Admin role"));
-		roleRepository.save(new Role("ROLE_USER", "User role"));
 		if (!userRepository.findByUsername(username).isPresent()) {
 			Optional<Role> role = roleRepository.findByRoleName("ROLE_ADMIN");
 			return Optional.of(userRepository

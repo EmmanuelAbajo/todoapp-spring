@@ -1,6 +1,8 @@
 package com.example.springtodoapp.bootstrap;
 
 import com.example.springtodoapp.dto.TodoRequestDTO;
+import com.example.springtodoapp.entity.Role;
+import com.example.springtodoapp.repository.RoleRepository;
 import com.example.springtodoapp.service.TodoService;
 import com.example.springtodoapp.service.UserService;
 
@@ -16,15 +18,19 @@ public class DataLoader implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(DataLoader.class);
     private final TodoService todoService;
     private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public DataLoader(TodoService todoService, UserService userService) {
+    public DataLoader(TodoService todoService, UserService userService, RoleRepository roleRepository) {
         this.todoService = todoService;
         this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+    	roleRepository.save(new Role("ROLE_ADMIN", "Admin role"));
+		roleRepository.save(new Role("ROLE_USER", "User role"));
     	TodoRequestDTO todo1 = new TodoRequestDTO("dependency injection","Practice dependency injection using spring");
     	TodoRequestDTO todo2 = new TodoRequestDTO("dependency injection","Practice dependency injection using nodejs");
 

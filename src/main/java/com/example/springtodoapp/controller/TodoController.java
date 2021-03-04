@@ -40,7 +40,7 @@ public class TodoController {
 
     // TODO: Validate request body
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<TodoResponseDTO> createTodo(@RequestBody TodoRequestDTO request){
     	request.setUser(userService.getLoggedInUser());
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request));

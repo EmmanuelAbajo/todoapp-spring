@@ -61,6 +61,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		System.out.println("JWT Auth Success");
 		Collection<GrantedAuthority> roles = ((User) authResult.getPrincipal()).getAuthorities();
 		String token = JWT.create()
+				.withIssuer("Emmanuel Abajo")
                 .withSubject(((User) authResult.getPrincipal()).getUsername())
                 .withClaim("roles", roles.stream().map(role -> role.getAuthority())
                 		.filter(Objects::nonNull).collect(Collectors.toList()))

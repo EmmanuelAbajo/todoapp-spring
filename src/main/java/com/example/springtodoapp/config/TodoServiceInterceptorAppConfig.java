@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class TodoServiceInterceptorAppConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
-    TodoServiceInterceptor todoServiceInterceptor;
+    private TodoServiceInterceptor todoServiceInterceptor;
 
     // Registering the interceptor with the interceptor registry
     @Override

@@ -4,10 +4,11 @@ import com.example.springtodoapp.interceptor.TodoServiceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @Component
-public class TodoServiceInterceptorAppConfig extends WebMvcConfigurerAdapter {
+public class TodoServiceInterceptorAppConfig implements WebMvcConfigurer {
 
     @Autowired
     private TodoServiceInterceptor todoServiceInterceptor;

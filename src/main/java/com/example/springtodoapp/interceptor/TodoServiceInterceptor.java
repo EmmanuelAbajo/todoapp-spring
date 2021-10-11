@@ -27,7 +27,7 @@ public class TodoServiceInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		logger.info("Request URL:: {} Sent to Handler :: Current Time = " + request.getRequestURL().toString(),System.currentTimeMillis());
+		logger.info("Request URL:: {} Sent to Handler :: Current Time = {}", request.getRequestURL().toString(),System.currentTimeMillis());
 	}
 
 	@Override

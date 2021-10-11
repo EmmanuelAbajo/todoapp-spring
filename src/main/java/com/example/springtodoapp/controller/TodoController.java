@@ -23,8 +23,8 @@ public class TodoController {
 
     private final TodoService todoService;
     private final UserService userService;
-//    @Value("${sample.config.key}")
-//    private String key;
+    @Value("${sample.config.key}")
+    private String key;
     
 
  // TODO: Add swagger documentation
@@ -33,10 +33,10 @@ public class TodoController {
         this.userService = userService;
     }
     
-//    @GetMapping(value="/key")
-//    public String getKey() {
-//    	return key;
-//    }
+    @GetMapping(value="/key")
+    public String getKey() {
+    	return key;
+    }
 
     // TODO: Validate request body
     @PostMapping

@@ -1,5 +1,7 @@
 package com.example.springtodoapp.security;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -39,10 +41,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeRequests()
+		// Enable CORS and disable CSRF
+		http.cors().and().csrf().disable()
+		// Set unauthorized requests exception handler
+		.exceptionHandling()
+		.authenticationEntryPoint(
+				(request, response, ex) -> {
+					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+		}).and()
+		// Set permissions on end points
+		.authorizeRequests()
+		 		// Our public end points
 				.antMatchers(HttpMethod.POST, SecurityConstants.LOGIN_URL).permitAll()
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 				.antMatchers(HttpMethod.GET, SecurityConstants.KEY_URL).permitAll()
+				// Our private end points
 				.antMatchers(HttpMethod.GET, "/api/user").hasAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				.and()
@@ -62,8 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	 @Bean
-	    public PasswordEncoder bCryptPasswordEncoder() {
-	        return new BCryptPasswordEncoder();
-	    }
+	 public PasswordEncoder bCryptPasswordEncoder() {
+	       return new BCryptPasswordEncoder();
+	  }
 
 }

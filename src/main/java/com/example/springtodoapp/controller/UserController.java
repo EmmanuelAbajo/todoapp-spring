@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpServerErrorException;
 
-import com.example.springtodoapp.dto.LoginDTO;
+import com.example.springtodoapp.dto.SignUpDTO;
 import com.example.springtodoapp.entity.User;
 import com.example.springtodoapp.service.UserService;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
 	private final UserService userService;
@@ -29,8 +29,8 @@ public class UserController {
 
 	@PostMapping(value = "/signup", consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public User signUp(@RequestBody @Valid LoginDTO loginDto) {
-		return userService.signin(loginDto.getUsername(), loginDto.getPassword(), loginDto.getEmail())
+	public User signUp(@RequestBody @Valid SignUpDTO signUpDto) {
+		return userService.signup(signUpDto.getUsername(), signUpDto.getPassword(), signUpDto.getEmail())
 				.orElseThrow(() -> new HttpServerErrorException(HttpStatus.BAD_REQUEST, "User already exists!"));
 	}
 	

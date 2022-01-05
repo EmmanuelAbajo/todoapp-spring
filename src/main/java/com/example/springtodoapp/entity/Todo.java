@@ -2,8 +2,6 @@ package com.example.springtodoapp.entity;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +25,6 @@ public class Todo {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	// TODO: Add JPA auditing configuration
 	@Column
 	private String createdAt;
 

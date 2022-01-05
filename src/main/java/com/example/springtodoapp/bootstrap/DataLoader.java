@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-	private static final Logger log = LoggerFactory.getLogger(DataLoader.class);
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
     private final TodoService todoService;
     private final UserService userService;
     private final RoleRepository roleRepository;

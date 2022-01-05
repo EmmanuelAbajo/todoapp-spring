@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> signin(String username, String password, String email) {
+	public Optional<User> signup(String username, String password, String email) {
 		if (!userRepository.findByUsername(username).isPresent()) {
 			Optional<Role> role = roleRepository.findByRoleName("ROLE_USER");
 			return Optional.of(userRepository

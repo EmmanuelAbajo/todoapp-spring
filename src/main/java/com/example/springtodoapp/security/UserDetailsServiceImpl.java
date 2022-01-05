@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.example.springtodoapp.repository.UserRepository;
 
 @Component
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	private final UserRepository userRepository;
 	

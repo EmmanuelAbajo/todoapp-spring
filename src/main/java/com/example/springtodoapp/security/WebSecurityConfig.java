@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 				.antMatchers(HttpMethod.GET, SecurityConstants.KEY_URL).permitAll()
 				// Our private end points
-				.antMatchers(HttpMethod.GET, "/api/user").hasAuthority("ROLE_ADMIN")
+				.antMatchers(HttpMethod.GET, "/api/v1/user").hasAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				.and()
 				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
